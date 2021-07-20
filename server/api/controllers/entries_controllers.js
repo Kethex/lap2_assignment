@@ -6,7 +6,7 @@ async function show (req, res) {
         const entry = await JournalEntry.findById(req.params.id);
         res.status(200).json(entry)
     } catch (err) {
-        res.status(404).json({err})
+        res.status(404).send({err})
     }
 }
 
