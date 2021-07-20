@@ -23,7 +23,7 @@ class Journal {
     return new Promise(async (resolve, reject) => {
       try {
         const { title, pseudonym, entry } = journalData;
-        let result = await db.query(`INSERT INTO Journals VALUES ('${title}', '${pseudonym}', '${entry}')`);
+        let result = await db.query(`INSERT INTO Journals (title, pseudonym, journalEntry) VALUES ('${title}', '${pseudonym}', '${entry}')`);
         let output = result.rows[0].map((row) => new Journal(row));
         resolve(output);
       } catch (err) {
