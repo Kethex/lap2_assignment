@@ -1,34 +1,36 @@
-module.exports = class Journal {
-    constructor(data){
-        this.title = data.title;
-        this.pseudonym = data.pseudonym;
-        this.entry = data.entry;
-        this.date = data.date
-    };
+const db = require('../dbConfig/init');
 
-    static findById(id){
-        return new Promise (async (resolve, reject) => {
-            try {
-                let journalData = await db.query(`SELECT books.*, authors.name as author_name
-                                                    FROM books 
-                                                    JOIN authors ON books.author_id = authors.id
-                                                    WHERE books.id = $1;`, [ id ]);
-                let book = new Journal(journalData.rows[0]);
-                resolve (book);
-            } catch (err) {
-                reject('Book not found');
-            }
-        });
-    };
+class Journal {
+  constructor(data) {
+    this.title = data.title;
+    this.pseudonym = data.pseudonym;
+    this.entry = data.entry;
+  }
 
-    static async create(journalData){
-        return new Promise (async (resolve, reject) => {
-            try {
-                const { title, pseudonym, entry, date} = journalData;
-                resolve (result.rows[0]);
-            } catch (err) {
-                reject('Book could not be created');
-            }
-        });
-    };
-};
+  static findById(id) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let journalData = await db.query(`SELECT * FROM Users WHERE username = '${username}'`);
+        let book = new Journal(journalData.rows[0]);
+        resolve(book);
+      } catch (err) {
+        reject('Book not found');
+      }
+    });
+  }
+
+  static async create(journalData) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { title, pseudonym, entry } = journalData;
+        let result = await db.query(`INSERT INTO Journals VALUES ('${title}', '${pseudonym}', '${entry}')`);
+        let output = result.rows[0].map((row) => new Journal(row));
+        resolve(output);
+      } catch (err) {
+        reject('Book could not be created');
+      }
+    });
+  }
+}
+
+module.exports = Journal;
