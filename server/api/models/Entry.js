@@ -1,4 +1,4 @@
-const db = require('../dbConfig/init');
+const db = require('../db_config/init');
 
 class Journal {
   constructor(data) {
