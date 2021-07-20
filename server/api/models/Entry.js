@@ -10,7 +10,7 @@ class Journal {
   static findById(id) {
     return new Promise(async (resolve, reject) => {
       try {
-        let journalData = await db.query(`SELECT * FROM Users WHERE username = '${username}'`);
+        let journalData = await db.query(`SELECT * FROM Journals WHERE id = '${id}'`);
         let book = new Journal(journalData.rows[0]);
         resolve(book);
       } catch (err) {
