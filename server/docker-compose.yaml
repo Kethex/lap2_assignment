@@ -1,11 +1,10 @@
 version: '3'
 services:
   api:
-    container_name: lap2_api
     image: 'node:12.18.4'
     working_dir: /code
     ports:
-      - 5000:5000
+      - 3000:3000
     environment:
       - PGUSER=freetyper
       - PGHOST=db
@@ -18,7 +17,6 @@ services:
         target: /code
     command: bash -c "npm install && npm run dev"
   db:
-    container_name: lap2_db
     image: 'postgres:11.1'
     expose:
       - '5432'
