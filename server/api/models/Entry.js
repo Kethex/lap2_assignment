@@ -4,7 +4,7 @@ class Journal {
   constructor(data) {
     this.title = data.title;
     this.pseudonym = data.pseudonym;
-    this.entry = data.entry;
+    this.entry = data.journalentry;
   }
 
   static findById(id) {
@@ -19,12 +19,15 @@ class Journal {
     });
   }
 
-  static async create(journalData) {
+  static async create(title, pseudonym, entry) {
     return new Promise(async (resolve, reject) => {
       try {
-        const { title, pseudonym, entry } = journalData;
-        let result = await db.query(`INSERT INTO Journals (title, pseudonym, journalEntry) VALUES ('${title}', '${pseudonym}', '${entry}')`);
-        let output = result.rows[0].map((row) => new Journal(row));
+        let result = await db.query(`INSERT INTO Journals (title, pseudonym, journalEntry) VALUES ($1, $2, $3) RETURNING *;`, [
+          title,
+          pseudonym,
+          entry,
+        ]);
+        const output = new Journal(result.rows[0]);
         resolve(output);
       } catch (err) {
         reject('Book could not be created');

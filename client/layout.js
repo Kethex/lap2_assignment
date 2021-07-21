@@ -1,5 +1,5 @@
 function renderJournal(data) {
-  let { id, title, pseudonym, journalEntry } = data; //intend to put this in post request or get request and may need to adjust depending on incoming object keys
+  let { id, title, pseudonym, journalEntry } = data;
 
   const newEntry = document.createElement('section');
   const newEntryHeading = document.createElement('h3');
@@ -18,3 +18,5 @@ function renderJournal(data) {
 
   return newEntry;
 }
+
+renderJournal();
