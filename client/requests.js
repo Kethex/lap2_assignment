@@ -25,9 +25,9 @@ async function postEntry(e) {
       body: JSON.stringify(Object.fromEntries(new FormData(e.target))),
     };
 
+    console.log(options);
     const response = await fetch('http://localhost:3000/routes/entries', options); //THIS IS THE ERROR CAUSING PART (the first parameter in fetch), THOUGH LINE 24 DOES NOT LOG TO THE console either.
     const result = await response.json(); //This was unfinished - I would use result.id if I could, to get the id. If it doesn't work, I'd probably have to add "this.id = data.id" to the first line under the constructor in models.
-    console.log(result);
     renderJournal(result);
     // const { id, err } = await response.json(); Got rid of this as we need more than the id
     // if(err) {
@@ -43,6 +43,7 @@ async function postEntry(e) {
 function renderJournal(data) {
   let { id, title, pseudonym, journalEntry } = data;
 
+  const main = document.querySelector('main');
   const newEntry = document.createElement('section');
   const newEntryHeading = document.createElement('h3');
   const newEntryAuthor = document.createElement('address');
@@ -54,9 +55,10 @@ function renderJournal(data) {
   newEntryAuthor.textContent = pseudonym;
   newEntryBody.textContent = journalEntry;
 
-  newEntry.append(newEntryHeading);
-  newEntry.append(newEntryAuthor);
-  newEntry.append(newEntryAuthor);
+  main.appendChild(newEntry);
+  newEntry.appendChild(newEntryHeading);
+  newEntry.appendChild(newEntryAuthor);
+  newEntry.appendChild(newEntryAuthor);
 
   return newEntry;
 }

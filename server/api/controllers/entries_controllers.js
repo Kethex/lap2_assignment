@@ -1,3 +1,4 @@
+const Journal = require('../models/Entry');
 const JournalEntry = require('../models/Entry');
 
 async function show(req, res) {
@@ -11,9 +12,13 @@ async function show(req, res) {
 
 async function create(req, res) {
   try {
-    console.log(req.body);
     const allEntry = await JournalEntry.create(req.body.title, req.body.pseudonym, req.body.entry);
-    res.status(200).json(allEntry);
+    // console.log('Line 15 controllers', allEntry);
+    const findNewEntryId = await JournalEntry.selectLastRecordId();
+    // console.log(findNewEntryId);
+    const mostRecentEntry = await JournalEntry.findById(findNewEntryId);
+
+    res.status(200).json(mostRecentEntry);
   } catch (err) {
     res.status(422).json({ err });
   }

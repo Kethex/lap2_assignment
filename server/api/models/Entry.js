@@ -2,6 +2,7 @@ const db = require('../db_config/init');
 
 class Journal {
   constructor(data) {
+    this.id = data.id;
     this.title = data.title;
     this.pseudonym = data.pseudonym;
     this.entry = data.journalentry;
@@ -19,6 +20,18 @@ class Journal {
     });
   }
 
+  static async selectLastRecordId() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let fnalRowId = await db.query(`SELECT id FROM Journals ORDER BY id DESC LIMIT 1`);
+        let id = fnalRowId.rows[0].id;
+        resolve(id);
+      } catch (err) {
+        reject('Unsuccessful');
+      }
+    });
+  }
+
   static async create(title, pseudonym, entry) {
     return new Promise(async (resolve, reject) => {
       try {
@@ -28,6 +41,7 @@ class Journal {
           entry,
         ]);
         const output = new Journal(result.rows[0]);
+        console.log('line 33 Entry', output);
         resolve(output);
       } catch (err) {
         reject('Book could not be created');
