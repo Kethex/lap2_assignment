@@ -1,0 +1,19 @@
+body {
+  background-color: #f1eedd;
+}
+
+#entry-post {
+  margin: auto;
+}
+
+input {
+  margin: auto;
+  display: block;
+}
+
+label {
+  text-align: center;
+  display: block;
+  font-family: 'Indie Flower', cursive;
+  font-size: 30px;
+}

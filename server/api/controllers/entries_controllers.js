@@ -1,5 +1,6 @@
 const Journal = require('../models/Entry');
 const JournalEntry = require('../models/Entry');
+const http = require('http');
 
 async function show(req, res) {
   try {
@@ -18,7 +19,8 @@ async function create(req, res) {
     // console.log(findNewEntryId);
     const mostRecentEntry = await JournalEntry.findById(findNewEntryId);
 
-    res.status(200).json(mostRecentEntry);
+    res.status(302).json(mostRecentEntry);
+    // .redirect(`http://localhost:3000/routes/entries/${findNewEntryId}`); COULD NOT GET THIS TO WORK
   } catch (err) {
     res.status(422).json({ err });
   }
